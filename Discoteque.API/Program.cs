@@ -23,6 +23,8 @@ builder.Services.AddDbContext<DiscotequeContext>(
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IArtistsService, ArtistsService>();
 builder.Services.AddScoped<IAlbumService, AlbumService>();
+builder.Services.AddScoped<ISongService, SongService>();
+builder.Services.AddScoped<ITourService, TourService>();
 
 var app = builder.Build();
 PopulateDb(app);
@@ -55,6 +57,8 @@ async void PopulateDb(WebApplication app)
     {
         var artistService = scope.ServiceProvider.GetRequiredService<IArtistsService>();
         var albumService = scope.ServiceProvider.GetRequiredService<IAlbumService>();
+        var songService = scope.ServiceProvider.GetRequiredService<ISongService>();
+        var tourService = scope.ServiceProvider.GetRequiredService<ITourService>();
 
         // Artists
         await artistService.CreateArtist(new Discoteque.Data.Models.Artist{
@@ -512,6 +516,54 @@ async void PopulateDb(WebApplication app)
             Name = "Jose",
             ArtistId = 10,
             Genre = Discoteque.Data.Models.Genres.Urban
+        });
+        #endregion
+
+        // Songs
+        #region Karol G
+        await songService.CreateSong(new Discoteque.Data.Models.Song{
+            Id = 1,
+            Name = "Holi",
+            AlbumId = 1,
+            Duration = 2
+        });
+        await songService.CreateSong(new Discoteque.Data.Models.Song{
+            Id = 1,
+            Name = "Holi",
+            AlbumId = 2,
+            Duration = 2
+        });
+        await songService.CreateSong(new Discoteque.Data.Models.Song{
+            Id = 1,
+            Name = "Holi",
+            AlbumId = 3,
+            Duration = 2
+        });
+        await songService.CreateSong(new Discoteque.Data.Models.Song{
+            Id = 1,
+            Name = "Holi",
+            AlbumId = 4,
+            Duration = 2
+        });
+        #endregion
+
+        // Tours
+        #region Karol G
+        await tourService.CreateTour(new Discoteque.Data.Models.Tour{
+            Id = 1,
+            Name = "Holi",
+            City="Medellín",
+            ArtistId = 1,
+            IsSold = true,
+            Date ="2022-07-12"
+        });
+        await tourService.CreateTour(new Discoteque.Data.Models.Tour{
+            Id = 1,
+            Name = "Holi",
+            City="Maracay",
+            ArtistId = 1,
+            IsSold = false,
+            Date ="2023-07-12"
         });
         #endregion
     }
